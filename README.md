@@ -31,7 +31,7 @@ DevKit Central is a fast, privacy-first, open-source developer productivity suit
 
 ```bash
 # Clone the repository
-git clone [https://github.com/USERNAME/devkit-central.git](https://github.com/USERNAME/devkit-central.git)
+git clone [https://github.com/jiyanbulut-dev/devkit-central.git](https://github.com/USERNAME/devkit-central.git)
 cd devkit-central
 
 # Install dependencies
