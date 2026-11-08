@@ -1,41 +1,88 @@
-# DevKit Central 🧰 Open-Source Developer Micro-Tools Hub
+# DevKit Central
 
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+An open-source, **privacy-first** hub of developer micro-tools. Everything runs 100% client-side in your browser: no backend, no analytics, no network requests with your data.
 
-DevKit Central is a fast, privacy-first, open-source developer productivity suite designed to replace ad-heavy online conversion sites. All operations are processed **100% client-side** in your browser, ensuring zero data transmission to external servers.
+Built with **React (Vite)**, **Tailwind CSS** and **Lucide** icons.
 
----
+## Tools
 
-## 🚀 Built-in Micro-Tools
+| Tool | What it does |
+| --- | --- |
+| JSON Formatter | Beautify / minify / validate, sort keys, error line + column with context |
+| JWT Decoder | Decode header, payload and signature; live expiration (`exp`, `nbf`, `iat`) check |
+| Base64 Encoder / Decoder | UTF-8 safe, URL-safe variant, one-click swap |
+| RegEx Tester | Live matching, `g` `i` `m` (+ `s` `u`) flag toggles, highlights, capture groups |
+| URL Encoder / Decoder | Component or full-URL mode, `+` as space, query parameter inspector |
 
-- **JSON Formatter & Validator:** Beautify, minify, and validate complex JSON payloads.
-- **JWT Decoder:** Inspect JSON Web Tokens header, payload, and expiration claims securely.
-- **Base64 Encoder / Decoder:** Instant string and binary Base64 conversions.
-- **RegEx Tester:** Interactive pattern matching with immediate flag feedback.
-- **URL Encoder & Decoder:** Cleanly sanitize and parse complex URL strings.
+## UX
 
----
+- Dark theme, responsive sidebar (drawer on mobile) and navbar
+- Search by name or functionality; press `/` or `Ctrl/Cmd + K` to focus it, `Enter` to open the top result
+- Instant tool switching with no page reloads; each tool is deep-linkable (`/#/jwt`)
+- Tools you've opened stay mounted, so switching away and back keeps your input (in memory only, nothing is persisted)
+- Each tool is code-split and lazy-loaded
 
-## 🛡️ Privacy & Performance
-
-- **Zero Server Latency:** Runs entirely in the browser using modern Web APIs.
-- **No Data Logging:** Sensitive keys, JWT tokens, and JSON payloads never leave the local environment.
-- **Offline Ready:** Built with lightweight DOM operations for maximum execution speed.
-
----
-
-## 🔧 Installation & Local Setup
+## Getting started
 
 ```bash
-# Clone the repository
-git clone [https://github.com/jiyanbulut-dev/devkit-central.git](https://github.com/USERNAME/devkit-central.git)
-cd devkit-central
-
-# Install dependencies
 npm install
+npm run dev       # http://localhost:5173
+npm run build     # production build in dist/
+npm run preview   # serve the production build locally
+```
 
-# Start development server
-npm run dev
+Requires Node.js 18+.
+
+## Project structure
+
+```
+devkit-central/
+├── index.html
+├── tailwind.config.js        # dark palette (ink / accent) + fonts
+├── postcss.config.js
+├── vite.config.js
+├── vercel.json               # Vercel config + security headers
+├── netlify.toml              # Netlify config + security headers
+├── public/favicon.svg
+└── src/
+    ├── main.jsx
+    ├── index.css             # Tailwind layers + shared .field / .btn / .panel classes
+    ├── App.jsx               # layout, hash routing, search, keyboard shortcuts
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── Sidebar.jsx
+    │   ├── JsonView.jsx      # syntax-highlighted JSON (no dangerouslySetInnerHTML)
+    │   └── ui.jsx            # CopyButton, Panel, Toggle, Segmented, banners
+    └── tools/
+        ├── index.js          # tool registry (add new tools here)
+        ├── JsonFormatter.jsx
+        ├── JwtDecoder.jsx
+        ├── Base64Tool.jsx
+        ├── RegexTester.jsx
+        └── UrlTool.jsx
+```
+
+## Adding a tool
+
+1. Create `src/tools/MyTool.jsx` with a default-exported React component.
+2. Register it in `src/tools/index.js` (`id`, `name`, `description`, `keywords`, `icon`, lazy `component`).
+
+The sidebar, search and routing pick it up automatically.
+
+## Deploying
+
+**Vercel:** import the repo. `vercel.json` already sets the framework, build command and output directory.
+
+**Netlify:** import the repo. `netlify.toml` sets `npm run build` and publishes `dist/`.
+
+Both configs add basic security headers (`nosniff`, `X-Frame-Options`, `no-referrer`, locked-down permissions policy). Because routing is hash-based, no server-side rewrites are required, though the SPA fallback is included anyway.
+
+## Privacy
+
+All processing uses browser APIs only (`JSON`, `atob` / `btoa`, `TextEncoder`, `RegExp`, `encodeURIComponent`). Nothing is sent anywhere, and nothing is written to `localStorage`, cookies or any other storage.
+
+A note on the JWT tool: it decodes tokens but **does not verify signatures**. Never trust token contents until your server has verified the signature.
+
+## License
+
+MIT

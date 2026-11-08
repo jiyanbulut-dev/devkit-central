@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Base ---------- */
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 font-sans text-slate-200 antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent-500/30 text-white;
+  }
+
+  /* Slim dark scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a3344 transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-500;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-400;
+  }
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  .field {
+    @apply w-full rounded-lg border border-ink-500 bg-ink-800 px-3 py-2 font-mono text-sm text-slate-100
+      placeholder:text-slate-500 outline-none transition
+      focus:border-accent-500 focus:ring-1 focus:ring-accent-500/40;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium
+      transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+      focus-visible:outline-accent-500 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn border-accent-500 bg-accent-500 text-ink-950 hover:bg-accent-400;
+  }
+  .btn-secondary {
+    @apply btn border-ink-500 bg-ink-700 text-slate-200 hover:border-ink-400 hover:bg-ink-600;
+  }
+  .btn-ghost {
+    @apply btn border-transparent text-slate-400 hover:bg-ink-700 hover:text-slate-200;
+  }
+
+  .panel {
+    @apply rounded-xl border border-ink-600 bg-ink-800;
+  }
+}
